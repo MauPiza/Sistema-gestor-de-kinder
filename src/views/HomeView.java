@@ -3,7 +3,7 @@ package views;
 import common.Common;
 import dao.UserManagerService;
 import model.User;
-import utils.Utils;
+import utils.UtilsDate;
 
 public class HomeView extends javax.swing.JFrame {
 
@@ -13,7 +13,7 @@ public class HomeView extends javax.swing.JFrame {
 
     public HomeView() {
         initComponents();
-        dateLabel.setText(Utils.setActualDate());
+        dateLabel.setText(UtilsDate.getFormatedDate(true, null));
         welcomeLabel.setText("Bienvenido, " + currentUser.getName() + " " + currentUser.getFirstLastname());
         if (verifyPermissions()) {
             user_managment_menu.setVisible(false);

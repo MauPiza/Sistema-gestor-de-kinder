@@ -11,7 +11,7 @@ public class DbConnection_MySQL {
     private Connection connection;
     private String error;
     private String controller = "com.mysql.cj.jdbc.Driver";//Librería de Mysql JDBC Driver
-    private String database = "jdbc:mysql://localhost/sistemacalificacioneskinder";
+    private String database = "jdbc:mysql://localhost/sistema_calificaciones_kinder";
     private String user = "root";
     private String password = "";
 

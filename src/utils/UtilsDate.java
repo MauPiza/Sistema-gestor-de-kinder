@@ -1,29 +1,18 @@
 package utils;
 
-import java.awt.Color;
 import java.time.LocalDate;
+import javax.swing.JOptionPane;
 
-public class Utils {
+public class UtilsDate {
 
     private static final LocalDate currentDate = LocalDate.now();
-    private static int currentDay, currentYear;
-    private static String currentMonth;
-    private static String currentDateString;
-
-    public static LocalDate getCurrentDate() {
-        return currentDate;
-    }
-
-    public static int hexadecimalToRGB(String hexCode) {
-        return Integer.parseInt(hexCode, 16);
-    }
-
-    public static Color castIntToColor(String hexToInt) {
-        return new Color(hexadecimalToRGB(hexToInt));
-    }
+    private static int day, year;
+    private static String formatedDateString, month;
+// DATES MANAGMENT
+//  Mapping date
 
     public static String monthsMapping(String month) {
-        String monthNumber = "";
+        String monthNumber;
         if (month.substring(0).equals("0")) {
             monthNumber = switch (month) {
                 case "01" ->
@@ -51,7 +40,7 @@ public class Utils {
                 case "12" ->
                     "Diciembre";
                 default ->
-                    "NONE";
+                    "Mes no válido";
             };
         } else {
             monthNumber = switch (month) {
@@ -80,17 +69,32 @@ public class Utils {
                 case "12" ->
                     "Diciembre";
                 default ->
-                    "NONE";
+                    "Mes no válido";
             };
         }
         return monthNumber;
     }
 
-    public static String setActualDate() {
-        currentDay = currentDate.getDayOfMonth();
-        currentMonth = monthsMapping(String.valueOf(currentDate.getMonthValue()));
-        currentYear = currentDate.getYear();
-        currentDateString = currentDay + " de " + currentMonth + " del " + currentYear;
-        return currentDateString;
+    /**
+     * Función que da formato a las fechas
+     *
+     * @param isCurrentDay Si es true, devolverá la fecha actual false devuelve
+     * una fecha cualquiera
+     * @param date Fecha indicada por el usuario
+     * @return devuelve la fecha formateada, Ej. '01 de junio del 2023'
+     */
+    public static String getFormatedDate(boolean isCurrentDay, LocalDate date) {
+        if (isCurrentDay) {
+            day = currentDate.getDayOfMonth();
+            month = monthsMapping(String.valueOf(currentDate.getMonthValue()));
+            year = currentDate.getYear();
+            formatedDateString = day + " de " + month + " del " + year;
+        } else {
+            day = date.getDayOfMonth();
+            month = monthsMapping(String.valueOf(date.getMonthValue()));
+            year = date.getYear();
+            formatedDateString = day + " de " + month + " del 20" + year;
+        }
+        return formatedDateString;
     }
 }

@@ -1,9 +1,11 @@
 package model;
 
 public class Subjects {
-    public int idSubject;
-    public String subject;
-    public String comments;
+
+    private int idSubject;
+    private String subject;
+    private String comments;
+    private char level;
 
     public Subjects() {
     }
@@ -31,6 +33,13 @@ public class Subjects {
     public void setComments(String comments) {
         this.comments = comments;
     }
-    
-    
+
+    public char getLevel() {
+        return level;
+    }
+
+    public void setLevel(char level) {
+        this.level = level;
+    }
+
 }

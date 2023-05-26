@@ -2,6 +2,7 @@ package dao;
 
 import java.awt.HeadlessException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,9 @@ public class StudentService implements StudentManagerInterface {
                         .append(student.getGroup())
                         .append("', '")
                         .append(student.getGrade())
-                        .append("');");
+                        .append("', ")
+                        .append(student.getClassroom().getId())
+                        .append(");");
                 if ((boolean) db.execute(query.toString(), true)) {
                     JOptionPane.showMessageDialog(null, "Alumno inscrito");
                     created = true;
@@ -58,6 +61,7 @@ public class StudentService implements StudentManagerInterface {
             }
         } catch (HeadlessException e) {
             System.out.println("Error: " + e.getMessage());
+            System.out.println("Error al crear alumno");
         } finally {
             db.disconnect();
         }
@@ -131,7 +135,29 @@ public class StudentService implements StudentManagerInterface {
     }
 
     @Override
-    public int calculateAge(LocalDate currentDate, LocalDate birthDate) {
+    public int setCourse(char level) {
+        int course = 0;
+        try {
+            if (db.connect()) {
+                String query = "SELECT id_curso FROM curso WHERE id_curso = " + level + ";";
+                ResultSet rs = (ResultSet) db.execute(query, false);
+                if (rs.next()) {
+                    course = rs.getInt("id_curso");
+                }else{
+                    System.out.println("No se encontraron coincidencias en los cursos");
+                }
+            }else{
+                System.out.println("Error de conexión");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }finally{
+            db.disconnect();
+        }
+        return course;
+    }
+
+    private int calculateAge(LocalDate currentDate, LocalDate birthDate) {
         int age = (int) currentDate.minusYears((long) birthDate.getYear()).minusYears(2000).getYear();
         return age;
     }

@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ClassroomService implements ClassroomManagerInterface{
-    
+public class ClassroomService implements ClassroomManagerInterface {
+
     private final DbConnection_MySQL db = new DbConnection_MySQL();
     private final Classroom globalClassroom = new Classroom();
     private final List<Classroom> classrooms = new ArrayList();
@@ -18,14 +18,13 @@ public class ClassroomService implements ClassroomManagerInterface{
         try {
             if (db.connect()) {
                 String query = "SELECT * FROM salon WHERE id = " + classroomId + ";";
-                ResultSet rs = (ResultSet)db.execute(query, false);
+                ResultSet rs = (ResultSet) db.execute(query, false);
                 if (rs.next()) {
                     globalClassroom.setId(rs.getInt("id"));
                     globalClassroom.setName(rs.getString("nombre"));
-                    globalClassroom.setMaxSize(rs.getInt("cupo_maximo"));
                     globalClassroom.setStudents(new ArrayList()); // TODO: obtener lista de alumnos
                 }
-            }else{
+            } else {
                 System.out.println("Error de conexion");
             }
         } catch (Exception e) {
@@ -41,16 +40,15 @@ public class ClassroomService implements ClassroomManagerInterface{
         try {
             if (db.connect()) {
                 String query = "SELECT * FROM salon";
-                ResultSet rs = (ResultSet)db.execute(query, false);
+                ResultSet rs = (ResultSet) db.execute(query, false);
                 while (rs.next()) {
                     Classroom localClassroom = new Classroom();
                     localClassroom.setId(rs.getInt("id"));
                     localClassroom.setName(rs.getString("nombre"));
-                    localClassroom.setMaxSize(rs.getInt("cupo_maximo"));
                     localClassroom.setStudents(new ArrayList()); // TODO: obtener lista de alumnos
                     classrooms.add(localClassroom);
                 }
-            }else{
+            } else {
                 System.out.println("Error de conexion");
             }
         } catch (SQLException e) {
@@ -66,16 +64,15 @@ public class ClassroomService implements ClassroomManagerInterface{
         try {
             if (db.connect()) {
                 String query = "SELECT * FROM salon WHERE cupo_maximo < 30;";
-                ResultSet rs = (ResultSet)db.execute(query, false);
+                ResultSet rs = (ResultSet) db.execute(query, false);
                 while (rs.next()) {
                     Classroom localClassroom = new Classroom();
                     localClassroom.setId(rs.getInt("id"));
                     localClassroom.setName(rs.getString("nombre"));
-                    localClassroom.setMaxSize(rs.getInt("cupo_maximo"));
                     localClassroom.setStudents(new ArrayList()); // TODO: obtener lista de alumnos
                     classrooms.add(localClassroom);
                 }
-            }else{
+            } else {
                 System.out.println("Error de conexion");
             }
         } catch (Exception e) {
@@ -85,5 +82,5 @@ public class ClassroomService implements ClassroomManagerInterface{
         }
         return classrooms;
     }
-    
+
 }

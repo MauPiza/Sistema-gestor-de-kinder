@@ -5,12 +5,12 @@ import java.util.List;
 
 public class Tutor {
 
-    public int idTutor;
-    public String name;
-    public String f_lastname;
-    public String s_lastname;
-    public String correoElectronico;
-    public List<Student> kids = new ArrayList();
+    private int idTutor;
+    private String name;
+    private String f_lastname;
+    private String s_lastname;
+    private String email;
+    private List<Student> kids = new ArrayList();
 
     public Tutor() {
     }
@@ -47,12 +47,12 @@ public class Tutor {
         this.s_lastname = s_lastname;
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<Student> getKids() {

@@ -3,9 +3,9 @@ package model;
 import java.util.List;
 
 public class Classroom {
+
     private int id;
     private String name;
-    private int maxSize;
     private List<Student> students;
 
     public Classroom() {
@@ -27,14 +27,6 @@ public class Classroom {
         this.name = name;
     }
 
-    public int getMaxSize() {
-        return maxSize;
-    }
-
-    public void setMaxSize(int maxSize) {
-        this.maxSize = maxSize;
-    }
-
     public List<Student> getStudents() {
         return students;
     }
@@ -42,6 +34,5 @@ public class Classroom {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
-    
-    
+
 }

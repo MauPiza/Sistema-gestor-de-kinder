@@ -1,6 +1,7 @@
 package views;
 
 import common.Common;
+import dao.ClassroomService;
 import dao.StudentService;
 import dao.TutorService;
 import java.awt.HeadlessException;
@@ -18,6 +19,7 @@ public class InscripcionAlumnosView extends javax.swing.JFrame {
 
     StudentService studentService = new StudentService();
     TutorService tutorService = new TutorService();
+    ClassroomService classroomService = new ClassroomService();
     int age = 0;
     String curp;
 
@@ -708,6 +710,7 @@ public class InscripcionAlumnosView extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrió un error, revisa los campos solicitados "
                     + "\n Si el problema persiste, contacta a soporte técnico");
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_labelEnterMouseClicked
 
@@ -867,15 +870,18 @@ public class InscripcionAlumnosView extends javax.swing.JFrame {
         // Crea un objeto de 'Tutor' y lo asocia con el registro del alumno
         Student student = new Student();
         Classroom classroom = new Classroom();
+        LocalDate dateWithPlusYears, dateWithoutPlusingYears;
         char grade = grade_field.getText().charAt(7);
         char group = group_field.getText().charAt(7);
+        String classroomName = grade + "-" + group;
+        int age = age_field.getText().charAt(5);
         int id_tutor = (int) createTutorAndMatchToStudent().get(1);
         int id_course = studentService.setCourse(grade);
         if (id_course == 0) {
             System.out.println("Error al cargar las materias");
             return false;
         }
-        classroom.setName(grade + "-" + group);
+        classroom.setName(classroomName);
         student.setName(name_field.getText());
         student.setF_lastname(lastname1_field.getText());
         student.setS_lastname(lastname2_field.getText());
@@ -883,18 +889,20 @@ public class InscripcionAlumnosView extends javax.swing.JFrame {
         //Obtiene la primer letra del género del estudiante
         student.setGender(gender_combobox.getSelectedItem().toString().charAt(0));
         student.setAge((char) age);
-        student.setBirthday((LocalDate) studentService.getAgeAndBirthday(curp).get(Common.GET_BIRTHDATE));
+        dateWithoutPlusingYears = (LocalDate) studentService.getAgeAndBirthday(curp).get(Common.GET_BIRTHDATE);
+        dateWithPlusYears = dateWithoutPlusingYears.plusYears(2000);
+        student.setBirthday(dateWithPlusYears);
         student.setGrade(grade);
         student.setGroup(group);
-        student.setIdTutor(2);
-        student.setClassroom(classroom);
+        student.setIdTutor(id_tutor);
+        student.setId_classroom(classroomService.getClassroomIdByName(classroomName));
         student.setIdCourse(id_course);
         return studentService.newStudent(student);
     }
 
     /**
-     * @return index 0 para obtener si la operacion es true o false
-     * @return index 1 para obtener el objeto del tutor
+     * @return index 0 para obtener si la operacion es true o false index 1 para
+     * obtener el objeto del tutor
      */
     private List<Object> createTutorAndMatchToStudent() {
         List<Object> returnValues = new ArrayList();
@@ -904,7 +912,7 @@ public class InscripcionAlumnosView extends javax.swing.JFrame {
         tutor.setS_lastname(tutor_lastname2.getText());
         tutor.setEmail(email_field.getText());
         returnValues.add(tutorService.createTutor(tutor));
-        returnValues.add(tutor.getIdtutor());
+        returnValues.add(tutorService.getLastTutorAdded());
         return returnValues;
     }
 }

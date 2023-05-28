@@ -48,13 +48,14 @@ public class StudentService implements StudentManagerInterface {
                         .append("', '")
                         .append(student.getGrade())
                         .append("', ")
-                        .append(student.getClassroom().getId())
+                        .append(student.getId_classroom())
                         .append(");");
                 if ((boolean) db.execute(query.toString(), true)) {
                     JOptionPane.showMessageDialog(null, "Alumno inscrito");
                     created = true;
                 } else {
                     JOptionPane.showMessageDialog(null, "No se ha completado la inscripcion");
+                    System.out.println(query.toString());
                 }
             } else {
                 System.out.println("Error de conexion");

@@ -28,12 +28,9 @@ public class TutorService implements TutorManagerInterface {
                         .append("', '")
                         .append(tutor.getEmail())
                         .append("');");
-                if ((boolean) db.execute(query.toString(), true)) {
-                    System.out.println("Registro exitoso, tutor creado");
-                    created = true;
-                } else {
-                    System.out.println("No se completó el registro de tutor");
-                }
+                db.execute(query.toString(), true);
+                System.out.println("Registro exitoso, tutor creado");
+                created = true;
             } else {
                 System.out.println("Error de conexión");
             }
@@ -65,6 +62,30 @@ public class TutorService implements TutorManagerInterface {
             db.disconnect();
         }
         return tutor;
+    }
+
+    @Override
+    public int getLastTutorAdded() {
+        try {
+            if (db.connect()) {
+                String query = "SELECT * FROM tutor ORDER BY id_tutor DESC LIMIT 1";
+                ResultSet rs = (ResultSet) db.execute(query, false);
+                if (rs.next()) {
+                    tutor.setIdtutor(rs.getInt("id_tutor"));
+                    tutor.setName(rs.getString("nombre"));
+                    tutor.setF_lastname(rs.getString("apellido_paterno"));
+                    tutor.setS_lastname(rs.getString("apellido_materno"));
+                    tutor.setEmail(rs.getString("correo_electronico"));
+                }
+            } else {
+                System.out.println("Sin resultados");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            db.disconnect();
+        }
+        return tutor.getIdtutor();
     }
 
     @Override

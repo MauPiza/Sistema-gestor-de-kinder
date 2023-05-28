@@ -2,9 +2,8 @@ package model;
 
 import java.time.LocalDate;
 
-
-
 public class Student {
+
     private int idStudent;
     private int idTutor;
     private int idCourse;
@@ -18,6 +17,7 @@ public class Student {
     private char group;
     private char grade;
     private Classroom classroom;
+    private int id_classroom;
 
     public Student() {
     }
@@ -117,7 +117,15 @@ public class Student {
     public void setGrade(char grade) {
         this.grade = grade;
     }
-    
+
+    public int getId_classroom() {
+        return id_classroom;
+    }
+
+    public void setId_classroom(int id_classroom) {
+        this.id_classroom = id_classroom;
+    }
+
     public Classroom getClassroom() {
         return classroom;
     }
@@ -125,5 +133,5 @@ public class Student {
     public void setClassroom(Classroom classroom) {
         this.classroom = classroom;
     }
-    
+
 }

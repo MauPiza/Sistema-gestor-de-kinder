@@ -10,6 +10,8 @@ public interface TutorManagerInterface {
 
     public Tutor getTutor(int tutorId);
     
+    public int getLastTutorAdded();
+    
     public List<Tutor> getTutors();
 
     public List<Student> getKids(int tutorId);

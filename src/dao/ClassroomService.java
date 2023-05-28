@@ -36,6 +36,27 @@ public class ClassroomService implements ClassroomManagerInterface {
     }
 
     @Override
+    public int getClassroomIdByName(String name) {
+        int id = 0;
+        try {
+            if (db.connect()) {
+                String query = "SELECT id FROM salon WHERE nombre = '" + name + "';";
+                ResultSet rs = (ResultSet) db.execute(query, false);
+                if (rs.next()) {
+                    id = rs.getInt("id");
+                }
+            } else {
+                System.out.println("Error de conexion");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            db.disconnect();
+        }
+        return id;
+    }
+
+    @Override
     public List<Classroom> getClassrooms() {
         try {
             if (db.connect()) {

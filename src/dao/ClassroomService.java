@@ -12,6 +12,7 @@ public class ClassroomService implements ClassroomManagerInterface {
     private final DbConnection_MySQL db = new DbConnection_MySQL();
     private final Classroom globalClassroom = new Classroom();
     private final List<Classroom> classrooms = new ArrayList();
+    private final List<Integer> classroomsIds = new ArrayList();
 
     @Override
     public Classroom getClassroomById(int classroomId) {
@@ -57,7 +58,7 @@ public class ClassroomService implements ClassroomManagerInterface {
     }
 
     @Override
-    public List<Classroom> getClassrooms() {
+    public List<Classroom> getAllClassrooms() {
         try {
             if (db.connect()) {
                 String query = "SELECT * FROM salon";
@@ -78,6 +79,26 @@ public class ClassroomService implements ClassroomManagerInterface {
             db.disconnect();
         }
         return classrooms;
+    }
+    
+@Override
+    public List<Integer> getClassroomsIdOccupated() {
+        try {
+            if (db.connect()) {
+                String query = "SELECT id_salon FROM alumno GROUP BY id_salon;";
+                ResultSet rs = (ResultSet) db.execute(query, false);
+                while (rs.next()) {
+                    classroomsIds.add(rs.getInt("id_salon"));
+                }
+            } else {
+                System.out.println("Error de conexion");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            db.disconnect();
+        }
+        return classroomsIds;
     }
 
     @Override

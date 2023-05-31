@@ -96,6 +96,11 @@ public class HomeView extends javax.swing.JFrame {
         panel_calificaciones.setBackground(new java.awt.Color(204, 255, 153));
         panel_calificaciones.setForeground(new java.awt.Color(51, 51, 51));
         panel_calificaciones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        panel_calificaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panel_calificacionesMouseClicked(evt);
+            }
+        });
         panel_calificaciones.setLayout(new java.awt.GridBagLayout());
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -263,6 +268,12 @@ public class HomeView extends javax.swing.JFrame {
         ListUsersView usersView = new ListUsersView();
         usersView.setVisible(true);
     }//GEN-LAST:event_list_itemActionPerformed
+
+    private void panel_calificacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_calificacionesMouseClicked
+        CapturaCalificacionesView capturaCalificaciones = new CapturaCalificacionesView();
+        this.setVisible(false);
+        capturaCalificaciones.setVisible(true);
+    }//GEN-LAST:event_panel_calificacionesMouseClicked
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

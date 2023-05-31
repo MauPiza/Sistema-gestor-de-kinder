@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-05-2023 a las 05:18:17
+-- Tiempo de generación: 31-05-2023 a las 07:26:06
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -43,6 +43,35 @@ CREATE TABLE `alumno` (
   `id_salon` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `alumno`
+--
+
+INSERT INTO `alumno` (`id_alumno`, `id_tutor`, `id_curso`, `nombre_alumno`, `apellido_paterno`, `apellido_materno`, `fecha_nacimiento`, `CURP`, `edad`, `sexo`, `grupo`, `grado`, `id_salon`) VALUES
+(10, 24, 1, 'Ma', 'Ba', 'Pi', '0020-06-01', 'BAPM200601HGRXZRA4', '3', 'M', 'A', '1', 1),
+(11, 26, 2, 'Mauricio', 'Banos', 'Piza', '0019-06-01', 'BAPM190601HGRXZRA4', '4', 'M', 'A', '2', 1),
+(12, 27, 1, 'Mauricio', 'Ba', 'Piza', '0020-06-01', 'BAPM200601HGRXZRA4', '3', 'M', 'A', '1', 1),
+(13, 28, 1, 'Mauricio', 'Banos', 'Piza', '0020-06-01', 'BAPM200601hgrxzra4', '3', 'M', 'A', '1', 1),
+(14, 29, 3, 'Mauricio', 'Banos', 'Piza', '0018-06-01', 'BAPM180601hgrxzra4', '5', 'M', 'A', '3', 9),
+(15, 30, 3, 'Vanessa Lizbeth', 'Magadan', 'Morales', '2018-09-19', 'MAMV180919MGRXZR90', '5', 'F', 'A', '3', 9),
+(16, 31, 1, 'Miguel Angel', 'Rangel', 'Hernandez', '2020-08-19', 'RAHM200819HGRXZRA4', '3', 'M', 'A', '1', 1),
+(17, 32, 2, 'Ximena', 'Banos', 'Piza', '2019-01-25', 'BAPX190125MGRXDC34', '4', 'F', 'A', '2', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `alumno_salon_view`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `alumno_salon_view` (
+`nombre` varchar(5)
+,`id_salon` int(11)
+,`id_alumno` int(11)
+,`apellido_paterno` varchar(20)
+,`apellido_materno` varchar(20)
+,`nombre_alumno` varchar(20)
+);
+
 -- --------------------------------------------------------
 
 --
@@ -71,6 +100,15 @@ CREATE TABLE `curso` (
   `nivel_materias` char(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `curso`
+--
+
+INSERT INTO `curso` (`id_curso`, `fecha_inicio`, `fecha_final`, `calificacion_final`, `nivel_materias`) VALUES
+(1, '2023-03-19', '2023-06-03', NULL, '1'),
+(2, '2023-03-19', '2023-06-03', NULL, '2'),
+(3, '2023-03-19', '2023-06-03', NULL, '3');
+
 -- --------------------------------------------------------
 
 --
@@ -79,7 +117,7 @@ CREATE TABLE `curso` (
 
 CREATE TABLE `materia` (
   `id_materia` int(11) NOT NULL,
-  `nombre_materia` varchar(30) DEFAULT NULL,
+  `nombre_materia` varchar(60) DEFAULT NULL,
   `observaciones` varchar(100) DEFAULT NULL,
   `nivel` char(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -91,28 +129,28 @@ CREATE TABLE `materia` (
 INSERT INTO `materia` (`id_materia`, `nombre_materia`, `observaciones`, `nivel`) VALUES
 (1, 'Lenguaje y comunicación', '', '1'),
 (2, 'Pensamiento matemático', '', '1'),
-(3, 'Exploración y comprensión del ', '', '1'),
+(3, 'Exploración y comprensión del mundo natural y social', '', '1'),
 (4, 'Artes', '', '1'),
 (5, 'Educación física', '', '1'),
 (6, 'Inglés', '', '1'),
 (7, 'Educación socioemocional', '', '1'),
-(8, 'Informática y robótica', '', '1'),
+(8, 'Informática', '', '1'),
 (9, 'Lenguaje y comunicación', '', '2'),
 (10, 'Pensamiento matemático', '', '2'),
-(11, 'Exploración y comprensión del ', '', '2'),
+(11, 'Exploración y comprensión del mundo natural y social', '', '2'),
 (12, 'Artes', '', '2'),
 (13, 'Educación física', '', '2'),
 (14, 'Inglés', '', '2'),
 (15, 'Educación socioemocional', '', '2'),
-(16, 'Informática y robótica', '', '2'),
+(16, 'Informática', '', '2'),
 (17, 'Lenguaje y comunicación', '', '3'),
 (18, 'Pensamiento matemático', '', '3'),
-(19, 'Exploración y comprensión del ', '', '3'),
+(19, 'Exploración y comprensión del mundo natural y social', '', '3'),
 (20, 'Artes', '', '3'),
 (21, 'Educación física', '', '3'),
 (22, 'Inglés', '', '3'),
 (23, 'Educación socioemocional', '', '3'),
-(24, 'Informática y robótica', '', '3');
+(24, 'Informática', '', '3');
 
 -- --------------------------------------------------------
 
@@ -141,7 +179,7 @@ INSERT INTO `perfil_usuario` (`id_tipo_usuario`, `descripcion`) VALUES
 
 CREATE TABLE `salon` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL
+  `nombre` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -176,6 +214,26 @@ CREATE TABLE `tutor` (
   `correo_electronico` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tutor`
+--
+
+INSERT INTO `tutor` (`id_tutor`, `nombre`, `apellido_paterno`, `apellido_materno`, `correo_electronico`) VALUES
+(19, 'A', 'okpokop', 'kopkp', 'okpokoomk'),
+(20, 'A', 'okpokop', 'kopkp', 'okpokoomk'),
+(21, 'UIHUIUH', 'IUHIUHIU', 'HUHIUHUI', 'UHIU'),
+(22, 'UIHUIUH', 'IUHIUHIU', 'HUHIUHUI', 'UHIU'),
+(23, 'ygugiuwiuchuih', 'ijoijoij', 'jijojojijio', 'ijjojojijoij'),
+(24, 'ygugiuwiuchuih', 'ijoijoij', 'jijojojijio', 'ijjojojijoij'),
+(25, 'Adolfo', 'ijoijoij', 'jijojojijio', 'ijjojojijoij'),
+(26, 'Adolfo', 'ijoijoij', 'jijojojijio', 'ijjojojijoij'),
+(27, 'Adolfo', 'Baños', 'Moran', 'firou30@hotmai.com'),
+(28, 'Maria', 'Piza', 'Muñoz', 'xxxx'),
+(29, 'Maria', 'Piza', 'Muñoz', 'xxxx'),
+(30, 'Alicia', 'Magadan', 'Carrasco', 'amagadan@gmail.com'),
+(31, 'Mariana', 'Echeverría', 'Hernández', 'example@example2.com'),
+(32, 'Adolfo', 'Baños', 'Moran', 'firou30@lb.com');
+
 -- --------------------------------------------------------
 
 --
@@ -201,6 +259,15 @@ INSERT INTO `usuarios` (`id_usuario`, `perfil`, `nombre`, `apellido_paterno`, `a
 (14, 0, 'Carolina', 'Arzeta', 'Navarro', 'caro_arzeta@lb.com', '123456'),
 (15, 0, 'Vanessa Lizbeth', 'Magadan', 'Morales', 'vmagadan_sec@lb.com', 'chocolate'),
 (18, 0, 'Sofia', 'Herrera', 'Vizcaino', 'sherrera_sec@lb.com', 'prueba');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `alumno_salon_view`
+--
+DROP TABLE IF EXISTS `alumno_salon_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `alumno_salon_view`  AS SELECT `s`.`nombre` AS `nombre`, `a`.`id_salon` AS `id_salon`, `a`.`id_alumno` AS `id_alumno`, `a`.`apellido_paterno` AS `apellido_paterno`, `a`.`apellido_materno` AS `apellido_materno`, `a`.`nombre_alumno` AS `nombre_alumno` FROM (`salon` `s` join `alumno` `a` on(`s`.`id` = `a`.`id_salon`)) ;
 
 --
 -- Índices para tablas volcadas
@@ -267,7 +334,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `id_alumno` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_alumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `bitacora`
@@ -279,7 +346,7 @@ ALTER TABLE `bitacora`
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `materia`
@@ -297,7 +364,7 @@ ALTER TABLE `salon`
 -- AUTO_INCREMENT de la tabla `tutor`
 --
 ALTER TABLE `tutor`
-  MODIFY `id_tutor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tutor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

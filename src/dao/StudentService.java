@@ -144,15 +144,15 @@ public class StudentService implements StudentManagerInterface {
                 ResultSet rs = (ResultSet) db.execute(query, false);
                 if (rs.next()) {
                     course = rs.getInt("id_curso");
-                }else{
+                } else {
                     System.out.println("No se encontraron coincidencias en los cursos");
                 }
-            }else{
+            } else {
                 System.out.println("Error de conexión");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }finally{
+        } finally {
             db.disconnect();
         }
         return course;
@@ -182,5 +182,38 @@ public class StudentService implements StudentManagerInterface {
 
     public char getGenderByCurp(String curp) {
         return curp.toUpperCase().charAt(10);
+    }
+
+    @Override
+    public List<Student> getStudentsByClassroom(int classroomId) {
+        try {
+            if (db.connect()) {
+                String query = "SELECT * FROM alumno WHERE id_salon = " + classroomId;
+                ResultSet rs = (ResultSet) db.execute(query, false);
+                while (rs.next()) {
+                    Student currentStudent = new Student();
+                    currentStudent.setIdStudent(rs.getInt("id_alumno"));
+                    currentStudent.setIdTutor(rs.getInt("id_tutor"));
+                    currentStudent.setIdCourse(rs.getInt("id_curso"));
+                    currentStudent.setName(rs.getString("nombre_alumno"));
+                    currentStudent.setF_lastname(rs.getString("apellido_paterno"));
+                    currentStudent.setS_lastname(rs.getString("apellido_materno"));
+                    currentStudent.setCurp(rs.getString("CURP"));
+                    currentStudent.setAge(rs.getString("edad").charAt(0));
+                    currentStudent.setGender((char)rs.getString("sexo").charAt(0));
+                    currentStudent.setGroup((char)rs.getString("grupo").charAt(0));
+                    currentStudent.setGrade((char)rs.getString("grado").charAt(0));
+                    currentStudent.setId_classroom(rs.getInt("id_salon"));
+                    kids.add(currentStudent);
+                }
+            } else {
+                System.out.println("Error de conexion");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            db.disconnect();
+        }
+        return kids;
     }
 }
